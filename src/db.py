@@ -20,13 +20,18 @@ class Entry(Model, sqlite_ext.FTSModel):
     id = peewee.PrimaryKeyField(column_class=peewee.VarCharColumn)
     content = peewee.TextField()
     created = peewee.DateTimeField(default=datetime.datetime.now)
-    votes = peewee.IntegerField(default=0)
+    votes_count = peewee.IntegerField(default=0)
+
+
+class Vote(Model):
+    entry = peewee.ForeignKeyField(Entry, related_name='votes')
+    created = peewee.DateTimeField(default=datetime.datetime.now)
+    userid = peewee.CharField(max_length=32)
 
 
 def random_id():
-    return hashlib.sha1(str(uuid.uuid4())).hexdigest()
-
-
+    return hashlib.md5(str(uuid.uuid4())).hexdigest()
 
 
 Entry.create_table(True)
+Vote.create_table(True)
