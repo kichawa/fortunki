@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/static/css/custom.css" type="text/css">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div id="archlogo"></div>
+                    <a class="brand" href="#">Fortunki z kanału #archlinux.pl</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li {% if current_path == "/" %}class="active"{% endif %}><a href="/">Lista</a></li>
+                            <li {% if current_path == "/add/" %}class="active"{% endif %}><a href="/add/">Dodaj fortunkę</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            {% for entry in entries %}
+                <div class="entry">
+                    <div class="header">
+                        <strong>#{{ loop.index }}</strong>
+                        &bull;
+                        {{ entry.created|strftime("%d.%m.%Y, %H:%M") }}
+                        &bull;
+                        {{ entry.votes }} głosów
+                        &bull;
+                        <a href="/vote/{{ entry.id }}/toggle/">
+                            <i class="icon-thumbs-up icon-white"></i>
+                        </a>
+                    </div>
+                    <div class="content">
+                        {{ entry.content|irc_log_colorize|safe }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
