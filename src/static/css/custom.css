@@ -41,3 +41,8 @@ body {
     border: none;
     background: inherit;
 }
+
+.entry .header .separator {
+    padding: 0 10px;
+    color: #7b7b7b;
+}
