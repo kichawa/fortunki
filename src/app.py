@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import hashlib
+import sys
 
 import flask
 
@@ -97,4 +98,7 @@ def entry_vote_toggle(entry_id):
 
 
 if __name__ == "__main__":
-    app.run()
+    host, port = '0.0.0.0', 5000
+    if len(sys.argv) == 2:
+        host, port = sys.argv[1].split(':')
+    app.run(host=host, port=int(port))
