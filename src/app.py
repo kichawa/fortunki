@@ -5,6 +5,7 @@ import hashlib
 import flask
 
 import db
+import pagination
 import settings
 
 app = flask.Flask(__name__)
@@ -35,12 +36,20 @@ def strftime(dt, format):
     return dt.strftime(format)
 
 @app.route("/")
-def list_entries():
-    offset = 0
-    order = '-created'
+@app.route("/order-<order>/")
+def list_entries(order="-votes_count"):
+    if order not in ["-votes_count", "votes_count", "created", "-created"]:
+        return flask.abort(404)
     entries = db.Entry.select().order_by(order)
-    entries = entries.paginate(offset, offset + settings.PER_PAGE_LIMIT)
-    return flask.render_template("list.html", entries=entries)
+    paginator = pagination.Paginator(entries, settings.PER_PAGE_LIMIT)
+    try:
+        page_num = int(flask.request.args.get('page'))
+    except (TypeError, ValueError):
+        page_num = 1
+    if page_num < 1:
+        page_num = 1
+    page = paginator.page(page_num)
+    return flask.render_template("list.html", entries_page=page)
 
 @app.route("/add/", methods=['GET', 'POST'])
 def add_entry():

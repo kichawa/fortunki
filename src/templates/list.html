@@ -4,7 +4,7 @@
 {% block content %}
     <div class="row">
         <div class="span12">
-            {% for entry in entries %}
+            {% for entry in entries_page.objects_list %}
                 <div class="entry" id="entry-{{ entry.id }}">
                     <div class="header">
                         <a href="#entry-{{ entry.id }}">
@@ -32,6 +32,23 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            {% if entries_page.has_previous() %}
+                <a href="?page={{ entries_page.previous_page_number() }}">
+                    <i class="icon-arrow-left"></i>
+                    poprzednia
+                </a>
+            {% endif %}
+            (Strona {{ entries_page.number }} z {{ entries_page.paginator.page_count() }})
+            {% if entries_page.has_next() %}
+                <a href="?page={{ entries_page.next_page_number() }}">
+                    nastepna
+                    <i class="icon-arrow-right"></i>
+                </a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
