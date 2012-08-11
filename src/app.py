@@ -29,7 +29,8 @@ def inject_path():
 @app.template_filter('irc_log_colorize')
 def irc_log_colorize(text):
     # TODO
-    return u"<pre>{0}</pre>".format(text.strip())
+    text = flask.escape(text.strip())
+    return u"<pre>{0}</pre>".format(text)
 
 @app.template_filter('strftime')
 def strftime(dt, format):
