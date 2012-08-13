@@ -41,7 +41,7 @@ def strftime(dt, format):
 @app.route("/order/<order>/")
 @app.route("/order/<order>/<export_as>/")
 @app.route("/<export_as>/")
-def list_entries(order="-votes_count", export_as=None):
+def entries_lits(order="-votes_count", export_as=None):
     if order not in ["-votes_count", "votes_count", "created", "-created"]:
         return flask.abort(404)
     if export_as not in [None, "json"]:
@@ -70,6 +70,16 @@ def list_entries(order="-votes_count", export_as=None):
                 objects=[o.json_ready() for o in page.objects_list])
     return flask.render_template("list.html", entries_page=page)
 
+@app.route("/details/<entry_id>/")
+def entry_details(entry_id):
+    "Just to be able to point to that direct entry..."
+    try:
+        entry = db.Entry.select().where(id=entry_id)
+    except db.Entry.DoesNotExist:
+        return flask.abort(404)
+    page = pagination.Paginator(entry, settings.PER_PAGE_LIMIT).page(1)
+    return flask.render_template("list.html", entries_page=page)
+
 @app.route("/add/", methods=['GET', 'POST'])
 def add_entry():
     errors = {}
@@ -86,7 +96,7 @@ def add_entry():
             eid = hashlib.md5(content).hexdigest()
             db.Entry.create(content=content, id=eid)
             # XXX redirect to referer
-            return flask.redirect(flask.url_for("list_entries"))
+            return flask.redirect(flask.url_for("entries_list"))
 
     return flask.render_template("add.html", errors=errors,
             form_data=flask.request.form)
@@ -110,7 +120,7 @@ def entry_vote_toggle(entry_id):
 
     entry.votes_count = entry.votes.count()
     entry.save()
-    response = flask.redirect(flask.url_for('list_entries'))
+    response = flask.redirect(flask.url_for('entries_list'))
     response.set_cookie(settings.VOTE_COOKIE_KEY, userid)
     return response
 
