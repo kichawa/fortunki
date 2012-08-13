@@ -52,7 +52,7 @@
                     Eksportuj wynik
                 </li>
                 <li>
-                    <a href="">
+                    <a href="./json/{% if request.args.get("page") %}?page={{ request.args['page'] }}{% endif %}">
                         <i class="icon-download-alt"></i>
                         Pobież jako JSON
                     </a>
