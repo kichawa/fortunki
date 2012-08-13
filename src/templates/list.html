@@ -31,24 +31,30 @@
                         {{ entry.content|irc_log_colorize|safe }}
                     </div>
                 </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Brak wyników do wyświetlenia.
+                </div>
             {% endfor %}
         </div>
     </div>
-    <div class="row">
-        <div class="span12">
-            {% if entries_page.has_previous() %}
-                <a href="?page={{ entries_page.previous_page_number() }}">
-                    <i class="icon-arrow-left"></i>
-                    poprzednia
-                </a>
-            {% endif %}
-            (Strona {{ entries_page.number }} z {{ entries_page.paginator.page_count() }})
-            {% if entries_page.has_next() %}
-                <a href="?page={{ entries_page.next_page_number() }}">
-                    nastepna
-                    <i class="icon-arrow-right"></i>
-                </a>
-            {% endif %}
+    {% if entries_page.has_previous() or entries_page.has_next() %}
+        <div class="row">
+            <div class="span12">
+                {% if entries_page.has_previous() %}
+                    <a href="?page={{ entries_page.previous_page_number() }}">
+                        <i class="icon-arrow-left"></i>
+                        poprzednia
+                    </a>
+                {% endif %}
+                (Strona {{ entries_page.number }} z {{ entries_page.paginator.page_count() }})
+                {% if entries_page.has_next() %}
+                    <a href="?page={{ entries_page.next_page_number() }}">
+                        nastepna
+                        <i class="icon-arrow-right"></i>
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
