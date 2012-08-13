@@ -39,9 +39,13 @@ def strftime(dt, format):
 
 @app.route("/")
 @app.route("/order/<order>/")
-def list_entries(order="-votes_count"):
+@app.route("/order/<order>/<export_as>/")
+def list_entries(order="-votes_count", export_as=None):
     if order not in ["-votes_count", "votes_count", "created", "-created"]:
         return flask.abort(404)
+    if export_as not in [None, "json"]:
+        return flask.abort(404)
+
     entries = db.Entry.select().order_by(order)
     paginator = pagination.Paginator(entries, settings.PER_PAGE_LIMIT)
     try:
@@ -51,6 +55,18 @@ def list_entries(order="-votes_count"):
     if page_num < 1:
         page_num = 1
     page = paginator.page(page_num)
+    if export_as == "json":
+        meta = {
+            'page': {
+                'number':page.number,
+                'has_next': page.has_next(),
+                'has_previous': page.has_previous(),
+            },
+            'order': order,
+            'total_count': paginator.count(),
+        }
+        return flask.jsonify(meta=meta,
+                objects=[o.json_ready() for o in page.objects_list])
     return flask.render_template("list.html", entries_page=page)
 
 @app.route("/add/", methods=['GET', 'POST'])

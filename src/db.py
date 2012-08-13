@@ -22,6 +22,14 @@ class Entry(Model, sqlite_ext.FTSModel):
     created = peewee.DateTimeField(default=datetime.datetime.now)
     votes_count = peewee.IntegerField(default=0)
 
+    def json_ready(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'creted': self.created.isoformat(),
+            'votes_count': self.votes_count,
+        }
+
 
 class Vote(Model):
     entry = peewee.ForeignKeyField(Entry, related_name='votes')
