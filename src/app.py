@@ -94,9 +94,8 @@ def add_entry():
                 errors['content'] = u"Fortunka nie może być pusta"
         if not errors:
             eid = hashlib.md5(content).hexdigest()
-            db.Entry.create(content=content, id=eid)
-            # XXX redirect to referer
-            return flask.redirect(flask.url_for("entries_list"))
+            entry = db.Entry.get_or_create(content=content, id=eid)
+            return flask.redirect(flask.url_for("entry_details", entry_id=entry.id))
 
     return flask.render_template("add.html", errors=errors,
             form_data=flask.request.form)
