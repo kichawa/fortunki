@@ -6,19 +6,26 @@
 {% block content %}
     <form action="." class="well" method="POST" accept-charset="utf-8">
         <div class="control-group {% if errors.content %}error{% endif %}">
-            <textarea name="content" class="span12" placeholder="Treść fortunki">{{ form_data.content }}</textarea>
+            <textarea name="content"  style="width:99%;height:220px;" placeholder="Treść fortunki">{{ form_data.content }}</textarea>
             <span class="help-inline">{{ errors.content }}</span>
         </div>
         <p class="help-block">
             Przykładowy format fortunki
             <pre><code>&lt;nick&gt; wypowiedź
 * nick wypowiedź
--!- nick [foo@***] has left #archlinux-pl ["wiadomość"] 
+-!- nick [foo@***] has left #archlinux-pl ["wiadomość"]
 -!- nick [foo@***] has quit #archlinux-pl ["wiadomość"]
 -!- nick [foo@***] has joined #archlinux-pl
 -!- nick was kicked from #archlinux.pl by nick wiadomość</code></pre>
         </p>
-        <button type="submit" class="btn btn-primary">Dodaj</button>
+        <a href="javascript:history.back()" class="btn">
+            <i class="icon-remove"></i>
+            Poniechaj
+        </a>
+        <button type="submit" class="btn btn-primary">
+            <i class="icon-ok-circle icon-white"></i>
+            Dodaj
+        </button>
     </form>
 
 {% endblock %}
