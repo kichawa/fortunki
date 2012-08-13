@@ -41,7 +41,7 @@ def strftime(dt, format):
 @app.route("/order/<order>/")
 @app.route("/order/<order>/<export_as>/")
 @app.route("/<export_as>/")
-def entries_lits(order="-votes_count", export_as=None):
+def entry_list(order="-votes_count", export_as=None):
     if order not in ["-votes_count", "votes_count", "created", "-created"]:
         return flask.abort(404)
     if export_as not in [None, "json"]:
@@ -119,7 +119,9 @@ def entry_vote_toggle(entry_id):
 
     entry.votes_count = entry.votes.count()
     entry.save()
-    response = flask.redirect(flask.url_for('entries_list'))
+    # flask is using 'Referer' instead of 'HTTP_REFERRER'
+    url = flask.request.headers.get('Referer', flask.url_for('entry_list'))
+    response = flask.redirect(url)
     response.set_cookie(settings.VOTE_COOKIE_KEY, userid)
     return response
 
