@@ -2,6 +2,11 @@ body {
     margin-top: 100px;
 }
 
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
 #archlogo {
     background: url("/static/img/archlogo.png") center center no-repeat;
     width: 190px;

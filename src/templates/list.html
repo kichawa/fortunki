@@ -3,7 +3,54 @@
 
 {% block content %}
     <div class="row">
-        <div class="span12">
+        <div class="span3">
+            <ul class="nav nav-list well">
+                <div style="margin:0 0 20px 0">
+                    <a href="/add/" class="btn btn-success">
+                        Dodaj fortunkę
+                    </a>
+                </div>
+                <li class="nav-header">
+                    Wyszukaj
+                </li>
+                <li>
+                    <form class="form form-search">
+                        <div class="input-append">
+                            <input type="search" class="search-query span2"><button class="btn" type="button"><i class="icon-search"></i></button>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-header">
+                    Sortuj według
+                </li>
+                <li>
+                    <a href="/">
+                        <i class="icon-thumbs-up"></i>
+                        najpierw najpopularniejsze
+                    </a>
+                </li>
+                <li>
+                    <a href="/order/votes_count/">
+                        <i class="icon-thumbs-down"></i>
+                        najpierw najmniej popularne
+                    </a>
+                </li>
+                <hr>
+                <li>
+                    <a href="/order/created/">
+                        <i class="icon-time"></i>
+                        najpierw najnowsze
+                    </a>
+                </li>
+                <li>
+                    <a href="/order/-created/">
+                        <i class="icon-time"></i>
+                        najpierw najstarsze
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="span8">
             {% for entry in entries_page.objects_list %}
                 <div class="entry" id="entry-{{ entry.id }}">
                     <div class="header">
@@ -40,7 +87,7 @@
     </div>
     {% if entries_page.has_previous() or entries_page.has_next() %}
         <div class="row">
-            <div class="span12">
+            <div class="span12 center">
                 {% if entries_page.has_previous() %}
                     <a href="?page={{ entries_page.previous_page_number() }}">
                         <i class="icon-arrow-left"></i>

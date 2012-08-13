@@ -38,7 +38,7 @@ def strftime(dt, format):
     return dt.strftime(format)
 
 @app.route("/")
-@app.route("/order-<order>/")
+@app.route("/order/<order>/")
 def list_entries(order="-votes_count"):
     if order not in ["-votes_count", "votes_count", "created", "-created"]:
         return flask.abort(404)
