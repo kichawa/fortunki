@@ -29,9 +29,33 @@ def inject_path():
 
 @app.template_filter('irc_log_colorize')
 def irc_log_colorize(text):
-    # TODO
-    text = flask.escape(text.strip())
-    return u"<pre>{0}</pre>".format(text)
+    text = text.strip()
+    chunks = []
+
+    nick_map = {}
+    for line in text.split('\n'):
+        line = line.strip()
+        if line.startswith("<"):
+            nick, msg = [flask.escape(p) for p in line.split(" ", 1)]
+            nick = nick[4:-4]
+            if nick not in nick_map:
+                nick_map[nick] = len(nick_map) + 1
+            line = u'<span class="irc-nick irc-nick-{0}">{1}:</span>'\
+                   ' <span class="message">{2}</span>'\
+                   .format(nick_map[nick], nick, msg)
+
+        if line.startswith("*"):
+            _, nick, msg = [flask.escape(p) for p in line.split(" ", 2)]
+            line = u'<span class="irc-nick-me">{0}</span>'\
+                    '<span class="irc-message-me">{1}</span>'\
+                    .format(nick, msg)
+
+        if line.startswith("-"):
+            line = u'<span class="irc-status">{0}</span>'.format(line)
+
+        chunks.append(line)
+
+    return u"<pre>{0}</pre>".format("\n".join(chunks))
 
 @app.template_filter('strftime')
 def strftime(dt, format):
