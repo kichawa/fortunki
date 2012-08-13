@@ -40,6 +40,7 @@ def strftime(dt, format):
 @app.route("/")
 @app.route("/order/<order>/")
 @app.route("/order/<order>/<export_as>/")
+@app.route("/<export_as>/")
 def list_entries(order="-votes_count", export_as=None):
     if order not in ["-votes_count", "votes_count", "created", "-created"]:
         return flask.abort(404)
@@ -84,6 +85,7 @@ def add_entry():
         if not errors:
             eid = hashlib.md5(content).hexdigest()
             db.Entry.create(content=content, id=eid)
+            # XXX redirect to referer
             return flask.redirect(flask.url_for("list_entries"))
 
     return flask.render_template("add.html", errors=errors,
