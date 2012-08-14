@@ -32,9 +32,14 @@ body {
     box-shadow: 2px 2px 7px #cfcfcf;
 }
 .entry .header {
-    background: #333333;
     color: #f4f4f4;
     padding: 3px 10px;
+}
+.entry.even .header {
+    background: #383535;
+}
+.entry.odd .header{
+    background: #333333;
 }
 .entry .content {
     margin: 0 1px;
@@ -103,3 +108,4 @@ body {
     padding-left: 110px;
 }
 .irc-message { color: #5e5e5e; }
+.search-string { padding: 2px 4px; background: #ebff64; }

@@ -16,7 +16,7 @@
                 <li>
                     <form class="form form-search">
                         <div class="input-append">
-                            <input type="search" class="search-query span2"><button class="btn" type="button"><i class="icon-search"></i></button>
+                            <input type="search" name="q" class="search-query span2" value="{{ request.args.get("q") }}"><button class="btn" type="submit"><i class="icon-search"></i></button>
                         </div>
                     </form>
                 </li>
@@ -61,7 +61,7 @@
         </div>
         <div class="span8">
             {% for entry in entries_page.objects_list %}
-                <div class="entry" id="entry-{{ entry.id }}">
+                <div class="entry {{ loop.cycle("odd", "even") }}" id="entry-{{ entry.id }}">
                     <div class="header">
                         <a href="/details/{{ entry.id }}/">
                             <i class="icon-globe icon-white"></i>

@@ -31,10 +31,16 @@ def inject_path():
 def irc_log_colorize(text):
     text = text.strip()
     chunks = []
+    search_str = flask.request.args.get('q', '')
+
+    if search_str:
+        search_tok = '#-#{0}#-#'.format(search_str)
 
     nick_map = {}
     for line in text.split('\n'):
         line = line.strip()
+        if search_str:
+            line = line.replace(search_str, search_tok)
         if line.startswith("<"):
             nick, msg = [flask.escape(p) for p in line.split(" ", 1)]
             nick = nick[4:-4]
@@ -53,6 +59,9 @@ def irc_log_colorize(text):
         if line.startswith("-"):
             line = u'<span class="irc-status">{0}</span>'.format(line)
 
+        if search_str:
+            line = line.replace(search_tok,
+                '<span class="search-string">{0}</span>'.format(search_str))
         chunks.append(line)
 
     return u"<pre>{0}</pre>".format("\n".join(chunks))
@@ -72,6 +81,8 @@ def entry_list(order="-votes_count", export_as=None):
         return flask.abort(404)
 
     entries = db.Entry.select().order_by(order)
+    if flask.request.args.get('q'):
+        entries = entries.where(content__match=flask.request.args.get('q'))
     paginator = pagination.Paginator(entries, settings.PER_PAGE_LIMIT)
     try:
         page_num = int(flask.request.args.get('page'))
