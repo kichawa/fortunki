@@ -23,25 +23,25 @@
                 <li class="nav-header">
                     Sortuj według
                 </li>
-                <li>
+                <li {% if request.path == "/" %}class="active"{% endif %}>
                     <a href="/">
                         <i class="icon-thumbs-up"></i>
                         najpierw najpopularniejsze
                     </a>
                 </li>
-                <li>
+                <li {% if request.path == "/order/votes_count/" %}class="active"{% endif %}>
                     <a href="/order/votes_count/">
                         <i class="icon-thumbs-down"></i>
                         najpierw najmniej popularne
                     </a>
                 </li>
-                <li>
+                <li {% if request.path == "/order/-created/" %}class="active"{% endif %}>
                     <a href="/order/-created/">
                         <i class="icon-time"></i>
                         najpierw najnowsze
                     </a>
                 </li>
-                <li>
+                <li {% if request.path == "/order/created/" %}class="active"{% endif %}>
                     <a href="/order/created/">
                         <i class="icon-time"></i>
                         najpierw najstarsze
