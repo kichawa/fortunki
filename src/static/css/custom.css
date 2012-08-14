@@ -49,6 +49,25 @@ body {
     color: #7b7b7b;
 }
 
+.paginated .inactive {
+    color: #a9a9a9;
+}
+.paginated .page-info {
+    color: #919191;
+    font-size: 20px;
+}
+.paginated .page-info .big {
+    font-size: 32px;
+    margin: -5px 2px 5px 2px;
+    display: inline-block;
+}
+.paginated .page-info .small {
+    font-size: 34px;
+    margin: 30px 0 -10px 0;
+    display: inline-block;
+    color: #c4c4c4;
+}
+
 .irc-nick {
     color: #9f9f9f;
     padding-right: 5px;
