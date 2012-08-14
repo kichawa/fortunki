@@ -8,7 +8,7 @@ class Page(object):
         self.objects_list = objects_list
 
     def has_next(self):
-        offset = (self.number + 1) * self.paginator.per_page
+        offset = self.number * self.paginator.per_page
         return offset < self.paginator.count()
 
     def next_page_number(self):
