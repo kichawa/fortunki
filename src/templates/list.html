@@ -92,37 +92,38 @@
                     Brak wyników do wyświetlenia.
                 </div>
             {% endfor %}
+
+            {% if entries_page.has_previous() or entries_page.has_next() %}
+                <div class="row">
+                    <div class="span8 center paginated">
+                        {% if entries_page.has_previous() %}
+                            <a href="?page={{ entries_page.previous_page_number() }}">
+                                <i class="icon-arrow-left"></i>
+                                poprzednia
+                            </a>
+                        {% else %}
+                            <span class="inactive">
+                                <i class="icon-arrow-left"></i>
+                                poprzednia
+                            </span>
+                        {% endif %}
+                        <span class="page-info">
+                            [<span class="big">{{ entries_page.number }}</span>/<span class="small">{{ entries_page.paginator.page_count() }}</span>]
+                        </span>
+                        {% if entries_page.has_next() %}
+                            <a href="?page={{ entries_page.next_page_number() }}">
+                                nastepna
+                                <i class="icon-arrow-right"></i>
+                            </a>
+                        {% else %}
+                            <span class="inactive">
+                                nastepna
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
-    {% if entries_page.has_previous() or entries_page.has_next() %}
-        <div class="row">
-            <div class="span12 center paginated">
-                {% if entries_page.has_previous() %}
-                    <a href="?page={{ entries_page.previous_page_number() }}">
-                        <i class="icon-arrow-left"></i>
-                        poprzednia
-                    </a>
-                {% else %}
-                    <span class="inactive">
-                        <i class="icon-arrow-left"></i>
-                        poprzednia
-                    </span>
-                {% endif %}
-                <span class="page-info">
-                    [<span class="big">{{ entries_page.number }}</span>/<span class="small">{{ entries_page.paginator.page_count() }}</span>]
-                </span>
-                {% if entries_page.has_next() %}
-                    <a href="?page={{ entries_page.next_page_number() }}">
-                        nastepna
-                        <i class="icon-arrow-right"></i>
-                    </a>
-                {% else %}
-                    <span class="inactive">
-                        nastepna
-                        <i class="icon-arrow-right"></i>
-                    </span>
-                {% endif %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}
